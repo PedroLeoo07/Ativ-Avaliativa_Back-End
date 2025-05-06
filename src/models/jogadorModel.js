@@ -1,8 +1,13 @@
 const pool = require('../config/database');
 
-const getJogadores = async () => {
-    const result = await pool.query("SELECT * FROM jogadores");
-    return result.rows;
+const getJogadores = async (idade) => {
+    if (!idade) {
+        const result = await pool.query("SELECT * FROM jogadores");
+        return result.rows;
+    } else {
+        const result = await pool.query("SELECT * FROM jogadores WHERE idade = $1", [idade]);
+        return result.rows;
+    }
 };
 
 const getJogador = async (id) => {

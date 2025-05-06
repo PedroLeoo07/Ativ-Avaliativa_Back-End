@@ -4,7 +4,7 @@ const jogadorModel = require("./../models/jogadorModel");
 
 const exportJogadorCSV = async (req, res) => {
     try {
-        const jogadores = await jogadorModel.getAllJogadores();
+        const jogadores = await jogadorModel.getJogadores();
 
         res.setHeader("Content-Disposition", "attachment; filename=jogadores.csv");
         res.setHeader("Content-Type", "text/csv");
@@ -16,7 +16,9 @@ const exportJogadorCSV = async (req, res) => {
             csvStream.write({
                 Id: jogador.id,
                 Nome: jogador.name,
-                Senha: jogador.password
+                Idade: jogador.idade,
+                Gols: jogador.gols,
+                Time: jogador.time_id
             });
         });
 
@@ -28,32 +30,32 @@ const exportJogadorCSV = async (req, res) => {
 
 const exportJogadorPDF = async (req, res) => {
     try {
-        const jogadores = await jogadorModel.getAllJogadores();
+        const jogadores = await jogadorModel.getJogadores(); 
 
         res.setHeader("Content-Type", "application/pdf");
-        res.setHeader("Content-Disposition", "inline; filename=jogadores.pdf")
+        res.setHeader("Content-Disposition", "inline; filename=jogadores.pdf");
 
         const doc = new PDFDocument();
         doc.pipe(res);
 
-        //Titulo
-        doc.fontSize(20).text("Relatório de Jogadores", { align: "center" });
+        // Título
+        doc.fontSize(30).text("Relatório de Jogadores", { align: "center" });
         doc.moveDown();
 
-        //Cabeçalho
-        doc.fontSize(12).text("Id | Name | Idade | Gols", { underline: true });
+        // Cabeçalho
+        doc.fontSize(20).text("Id | Name | Idade | Gols", { underline: true });
         doc.moveDown(0.5);
 
-        //Add dados dos jogadores
+        // Adicionar dados dos jogadores
         jogadores.forEach((jogador) => {
             doc.text(
-                `${jogador.id} | ${jogador.name} | ${jogador.age} | ${jogador.goals}`, 
+                `${jogador.id} | ${jogador.name} | ${jogador.idade} | ${jogador.gols}`
             );
         });
 
         doc.end();
     } catch (error) {
-        res.status(500).json({ message: "Erro ao gerar PDF!" });
+        res.status(500).json({ message: "Erro ao gerar PDF!", error: error.message });
     }
 };
 
