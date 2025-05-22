@@ -6,10 +6,10 @@ const apiKeyMiddleware = require("../config/apiKey");
 
 router.use(apiKeyMiddleware);
 
-router.get("/", jogadorController.getAllJogadores);
-router.get("/:id", jogadorController.getJogador);
-router.post("/", upload.single("photo"), jogadorController.createJogador);
-router.delete("/:id", jogadorController.deleteJogador);
-router.put("/:id", jogadorController.updateJogador);
+router.get("/jogadores", jogadorController.getAllJogadores);
+router.get("/jogadores/:id", jogadorController.getJogador);
+router.post("/jogadors", upload.single("photo"), jogadorController.createJogador);
+router.delete("/jogadores/:id", jogadorController.deleteJogador);
+router.put("/jogadores/:id", jogadorController.updateJogador);
 
 module.exports = router;

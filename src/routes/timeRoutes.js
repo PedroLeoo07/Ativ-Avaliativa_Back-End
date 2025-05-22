@@ -6,10 +6,10 @@ const apiKeyMiddleware = require("../config/apiKey");
 
 router.use(apiKeyMiddleware);
 // Middleware para verificar a chave da API em todas as rotas
-router.get("/", timeController.getAllTimes);
-router.get("/:id", timeController.getTimeById);
-router.post("/", timeController.createTime);
-router.put("/:id", timeController.updateTime);
-router.delete("/:id", timeController.deleteTime);
+router.get("times", timeController.getAllTimes);
+router.get("/times/:id", timeController.getTimeById);
+router.post("/times", timeController.createTime);
+router.put("/times:id", timeController.updateTime);
+router.delete("/times/:id", timeController.deleteTime);
 
 module.exports = router;
